@@ -1,82 +1,78 @@
 @echo off
+setlocal
 chcp 65001 >nul
 cd /d "%~dp0"
 
-:: ── 读取 .env.local ──
-set ENVFILE=%~dp0.env.local
-if exist "%ENVFILE%" (
-    for /f "usebackq tokens=1,* delims==" %%a in ("%ENVFILE%") do (
-        if "%%a"=="GEMINI_API_KEY" set GEMINI_KEY=%%b
-    )
-)
-
-:: ── 设置 AI 后端环境变量 ──
-if defined GEMINI_KEY (
-    set AI_API_URL=https://generativelanguage.googleapis.com/v1beta/openai
-    set AI_API_KEY=%GEMINI_KEY%
-    set AI_DEFAULT_MODEL=gemini-2.5-flash-preview-05-20
-) else (
-    echo [提示] 未找到 GEMINI_API_KEY，将使用后端默认配置
-)
-
-:: 如果需要代理访问 Google API，取消注释下一行
-:: set HTTPS_PROXY=http://127.0.0.1:7897
-
-:: Check Node.js
 where node >nul 2>nul
 if %errorlevel% neq 0 (
-    echo [错误] 未安装 Node.js
+    echo [error] Node.js is not installed.
     pause
-    exit /b
+    exit /b 1
 )
 
-:: Check Python
 where python >nul 2>nul
 if %errorlevel% neq 0 (
-    echo [错误] 未安装 Python
+    echo [error] Python is not installed.
     pause
-    exit /b
+    exit /b 1
 )
 
-:: Check dependencies
+python -c "import encodings, venv" >nul 2>nul
+if %errorlevel% neq 0 (
+    echo [error] The detected Python runtime cannot create virtual environments.
+    echo [error] Please install a standard Python distribution and ensure it works outside this folder.
+    pause
+    exit /b 1
+)
+
 if not exist "node_modules" (
-    echo [安装] 前端依赖...
+    echo [setup] Installing frontend dependencies...
     call npm install
+    if %errorlevel% neq 0 goto :error
 )
 
-if exist "backend\requirements.txt" (
-    echo [安装] 后端依赖...
-    python -m pip install -q -r backend\requirements.txt
+if not exist ".backend-venv\Scripts\python.exe" (
+    echo [setup] Creating backend virtual environment...
+    python -m venv .backend-venv
+    if %errorlevel% neq 0 goto :error
+)
+
+echo [setup] Installing backend dependencies...
+call ".backend-venv\Scripts\python.exe" -m pip install --upgrade pip >nul
+call ".backend-venv\Scripts\python.exe" -m pip install -r backend\requirements.txt
+if %errorlevel% neq 0 goto :error
+
+if not defined DOCUGEN_OFFLINE_PDF_ROOT (
+    if exist "%~dp0backend\offline_pdf_bundle" (
+        set "DOCUGEN_OFFLINE_PDF_ROOT=%~dp0backend\offline_pdf_bundle"
+    )
 )
 
 cls
 echo ========================================================
-echo   DocuGen AI 本地启动
+echo   DocuGen Open
 echo ========================================================
+echo   Frontend: http://127.0.0.1:9000
+echo   Backend : http://127.0.0.1:8001
 echo.
-if defined GEMINI_KEY (
-    echo   API: Gemini OpenAI 兼容端点
-    echo   Key: %GEMINI_KEY:~0,8%...
-    echo   模型: gemini-2.5-flash-preview-05-20
+echo   This public edition does not ship with any built-in API key.
+echo   Configure your own OpenAI-compatible endpoint in the browser.
+echo.
+if defined DOCUGEN_OFFLINE_PDF_ROOT (
+    echo   PDF engine: %DOCUGEN_OFFLINE_PDF_ROOT%
 ) else (
-    echo   API: 默认配置（公司网关）
+    echo   PDF engine: not configured
+    echo   Set DOCUGEN_OFFLINE_PDF_ROOT to enable PDF -> Word.
 )
-echo.
-echo   [1] 后端: http://127.0.0.1:8001
-echo   [2] 前端: http://localhost:9000
-echo   [3] 管理员: admin / Pretty74@
-echo.
-echo   关闭此窗口不影响运行
 echo ========================================================
 echo.
 
-:: Start Python backend (new window, inherits env vars)
-start "DocuGen-Backend" cmd /k "cd /d "%~dp0backend" && python -m uvicorn main:app --host 127.0.0.1 --port 8001 --reload"
-
-:: Wait for backend to start
+start "DocuGen Open Backend" cmd /k "cd /d \"%~dp0backend\" && ..\.backend-venv\Scripts\python.exe -m uvicorn main:app --host 127.0.0.1 --port 8001 --reload"
 timeout /t 2 /nobreak >nul
+call npm run dev -- --host 127.0.0.1 --port 9000 --open
+exit /b 0
 
-:: Start Vite frontend (current window, auto-open browser)
-call npm run dev -- --open
-
+:error
+echo [error] Startup failed.
 pause
+exit /b 1

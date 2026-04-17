@@ -22,12 +22,12 @@ export interface ModelInfo {
   name: string;
 }
 
-export type DocFont = '微软雅黑' | '仿宋_GB2312' | '宋体';
+export type DocFont = 'Microsoft YaHei' | 'FangSong_GB2312' | 'SimSun';
 
 export const DOC_FONTS: { id: DocFont; name: string; note?: string }[] = [
-  { id: '微软雅黑', name: '微软雅黑' },
-  { id: '仿宋_GB2312', name: '仿宋 GB2312', note: '公文推荐字体，如未安装请下载' },
-  { id: '宋体', name: '宋体' },
+  { id: 'Microsoft YaHei', name: '微软雅黑' },
+  { id: 'FangSong_GB2312', name: '仿宋 GB2312', note: '公文常用字体，如未安装请先安装对应字体' },
+  { id: 'SimSun', name: '宋体' },
 ];
 
 export interface LocalAIConfig {

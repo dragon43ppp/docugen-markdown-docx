@@ -1,123 +1,143 @@
-# DocuGen AI Open
+# DocuGen Open
 
-一个可本地运行的 AI 文档格式化工具。
+[English README](./README.en.md)
 
-它适合把 Markdown、纯文本、聊天记录、会议笔记、表格数据、标书内容整理成结构清晰的 Markdown，并导出为 Word / Excel。
+DocuGen Open 是一个可本地运行的文档整理工具，适合把 TXT、Markdown、Word、Excel、PDF、图片中的内容导入后继续整理，并导出为 Word 或 Excel。
 
-## 功能
+这个公开版不内置任何公司 API、管理员账号、默认密钥或内部地址。AI 能力采用自带接口配置模式，你可以接入自己的 OpenAI 兼容服务，例如 OpenAI、Gemini 兼容端点、Qwen 兼容端点，或其他兼容 `/models` 和 `/chat/completions` 的网关。
 
-- AI 格式化：整理标题、段落、列表、表格结构
-- 智能表格：把文本中的结构化信息转成 Markdown 表格
-- 标书转写：长文档分段处理，适合技术方案/标书整理
-- 文件导入：支持 `.txt` `.md` `.docx` `.xlsx` `.pdf`
-- 文档导出：支持导出 `.docx` 和 `.xlsx`
-- 本地配置：用户自己填写 `API Base URL + API Key(可选) + Model`
-- 兼容 OpenAI 风格接口：`/models`、`/chat/completions`
+## 核心能力
 
-## 适用模型服务
+- 导入 `TXT / Markdown / DOCX / XLSX / PDF / 图片`
+- 在页面中继续编辑、预览和整理 Markdown 内容
+- `PDF -> Word` 直出中间结果，并允许继续做格式整理
+- AI 格式化、智能表格、标书转写
+- 导出最终 `DOCX / XLSX`
 
-理论上兼容大多数 OpenAI 风格网关，例如：
+## 处理流程
 
-- OpenAI 兼容中转服务
-- DeepSeek 兼容网关
-- 阿里云百炼兼容网关
-- 硅基流动/OpenRouter/One API 一类兼容服务
-- 自建兼容 OpenAI 协议的模型代理
+1. 导入 PDF 或其他文件
+2. 如果导入的是 PDF，点击“下载中间 Word”
+3. 继续在页面里整理提取出的内容
+4. 导出最终 DOCX 或 Excel
 
-只要你的服务支持：
+## PDF 转 Word 是否需要大模型
 
-- `GET {baseUrl}/models`
-- `POST {baseUrl}/chat/completions`
+不需要。
 
-即可使用。
+公开版里的 `PDF -> Word` 能力优先使用本地离线结构化引擎，不依赖大模型。只有下面这些能力会调用你自己配置的线上模型接口：
 
-## 项目结构
+- AI 格式化
+- 智能表格
+- 标书转写
 
-- `App.tsx`：主界面
-- `components/`：前端组件
-- `services/`：前端调用与导出逻辑
-- `backend/main.py`：本地后端代理与文件解析
+## 免费格式转换入口
 
-## 本地启动
+如果你只是想免费使用文档格式转换功能，也可以直接在微信小程序“谈单底牌”中使用。
 
-### 1. 启动前端
+![谈单底牌小程序码](docs/assets/wechat-mini-program-qr.jpg)
 
-要求：Node.js 18+
+## 快速开始
+
+### 方式一：直接启动
+
+Windows 下可以直接运行：
+
+```bat
+Start-DocuGen.bat
+```
+
+脚本会：
+
+- 安装前端依赖
+- 创建本地后端虚拟环境 `.backend-venv`
+- 安装后端依赖
+- 启动后端 `http://127.0.0.1:8001`
+- 启动前端 `http://127.0.0.1:9000`
+
+### 方式二：手动启动
+
+前端：
 
 ```bash
 npm install
-npm run dev
+npm run dev -- --host 127.0.0.1 --port 9000
 ```
 
-默认前端地址：`http://127.0.0.1:5173`
-
-### 2. 启动后端
-
-要求：Python 3.11+
+后端：
 
 ```bash
-pip install -r backend/requirements.txt
-uvicorn backend.main:app --reload --port 8001
+python -m venv .backend-venv
+.backend-venv\Scripts\python -m pip install -r backend\requirements.txt
+cd backend
+..\.backend-venv\Scripts\python -m uvicorn main:app --host 127.0.0.1 --port 8001 --reload
 ```
 
-默认后端地址：`http://127.0.0.1:8001`
+如果你是在 PowerShell 中启动，等价命令是：
 
-### 3. 首次使用配置
+```powershell
+python -m venv .backend-venv
+.\.backend-venv\Scripts\python.exe -m pip install -r backend\requirements.txt
+Set-Location backend
+..\.backend-venv\Scripts\python.exe -m uvicorn main:app --host 127.0.0.1 --port 8001 --reload
+```
 
-打开页面后，填写：
+## 首次使用时需要配置什么
 
-- `API Base URL`：例如 `https://api.openai.com/v1`
-- `API Key`：可选；如果你的兼容网关或本地代理不需要鉴权，可以留空
-- `默认模型`：例如 `gpt-4o-mini`、`deepseek-chat`
-- `标书模型`：可选
+打开页面后，填写以下内容即可：
 
-配置仅保存在当前浏览器 localStorage，并在调用时发送给本地后端代理。
+- `API Base URL`
+- `API Key`，可选
+- `默认模型`
+- `标书模型`，可选
 
-## 使用流程
+这些配置仅保存在浏览器本地 `localStorage` 中，不会随仓库发布。
 
-1. 粘贴文本或导入文件
-2. 选择模型
-3. 点击 `AI 格式化` / `智能表格` / `标书转写`
-4. 检查结果
-5. 导出 DOCX 或 Excel
+## 启用 PDF -> Word 离线引擎
 
-## 安全与限制
+如果你希望使用更完整的 PDF / 图片结构化能力，请准备 `Offline_PDF_Structure` 环境，并设置环境变量：
 
-- 为避免滥用，本地后端代理默认只允许请求 `HTTPS` 上游地址，或 `http://127.0.0.1` / `http://localhost` 这类本机地址
-- 前端开发默认允许从 `http://127.0.0.1:5173` / `http://localhost:5173` 访问本地后端
-- 如需支持其他内网 HTTP 网关或其他前端来源，请按你的部署环境自行调整 `backend/main.py`
+```powershell
+$env:DOCUGEN_OFFLINE_PDF_ROOT="D:\BaiduNetdiskDownload\PDF图片表格数据提取\Offline_PDF_Structure"
+```
 
-## PDF 说明
+也可以把可运行的离线包放到：
 
-PDF 解析依赖系统安装的 `pdftotext` 命令行工具，不包含在 Python requirements 中。
+```text
+backend/offline_pdf_bundle
+```
 
-如果你的机器没有安装它，PDF 上传会返回提示，但其他文件类型仍可正常使用。
+离线引擎主要用于：
 
-## 开源版说明
+- 扫描版 PDF OCR
+- 图片文字识别
+- 版面分析
+- 表格识别
+- `PDF -> DOCX` 直接导出
 
-这个版本做了以下改造：
+## 安全说明
 
-- 去掉登录、注册、管理员、用户历史隔离等内部平台逻辑
-- 去掉硬编码 API Key、公司地址、公司说明文案
-- 改为单用户本地配置模式
-- 保留核心导入、分段处理、导出能力
+- 仓库中不包含任何真实 API Key
+- 公开版不包含任何公司内部 API 或默认网关
+- 前端只把你手动填写的配置发送给本地后端
+- 后端默认只允许访问 HTTPS 上游，或本机 HTTP 地址
 
-## 注意事项
+## 适用场景
 
-- AI 可能产生幻觉或格式偏差，请人工复核结果
-- 标书/长文档场景更容易出现细节偏差，务必人工校验
-- 请不要上传敏感数据，或先做脱敏处理
+- 把 PDF 转成 Word，再继续整理格式
+- 把网文、会议纪要、聊天记录整理成规范文档
+- 把表格类内容整理成 Markdown 表格或 Excel
+- 把已有 Word / Excel 内容重新梳理后再导出
 
-## 后续可选工作
+## 开源范围说明
 
-你可以继续扩展：
+这个仓库聚焦于公开可运行的本地版本：
 
-- 增加本地历史记录
-- 增加 `.env.example`
-- 增加 Docker 启动方式
-- 接入更多文件解析能力
-- 增加 GitHub Actions 自动构建
+- 保留文档导入、整理、导出能力
+- 保留离线 PDF 结构化桥接能力
+- 保留自定义 AI 接口配置
+- 移除了内部版相关的账号体系、默认密钥、公司 API 和专用发布逻辑
 
 ## License
 
-可根据你的发布需求补充，例如 MIT。
+MIT
