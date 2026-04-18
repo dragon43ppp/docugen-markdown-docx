@@ -3,6 +3,12 @@
 **简体中文** | [English](./README.en.md)
 
 <p align="center">
+  <a href="https://github.com/dragon43ppp/docugen-markdown-docx/stargazers"><img src="https://img.shields.io/github/stars/dragon43ppp/docugen-markdown-docx?style=flat-square" alt="GitHub stars" /></a>
+  <a href="https://github.com/dragon43ppp/docugen-markdown-docx/blob/main/LICENSE"><img src="https://img.shields.io/github/license/dragon43ppp/docugen-markdown-docx?style=flat-square" alt="License" /></a>
+  <a href="https://github.com/dragon43ppp/docugen-markdown-docx/commits/main"><img src="https://img.shields.io/github/last-commit/dragon43ppp/docugen-markdown-docx?style=flat-square" alt="Last commit" /></a>
+</p>
+
+<p align="center">
   <img src="docs/assets/github-cover.png" alt="DocuGen Markdown DOCX cover" width="100%" />
 </p>
 
@@ -12,6 +18,12 @@
 
 DocuGen Markdown DOCX 是一个可本地运行的文档整理工具。你可以导入 `TXT / Markdown / DOCX / XLSX / PDF / 图片`，在页面中继续整理内容，并导出为 Word 或 Excel。
 适合 `PDF 转 Word`、`Markdown 转 DOCX`、AI 文档整理、文档格式统一、招投标材料整理等场景。
+
+## 3 秒看懂用途
+
+- 有一堆格式混乱的 PDF、Word、Markdown、图片文档，想快速整理成统一可交付版本
+- AI 大模型产出的是 Markdown 草稿，不能直接拿去公司内部流转或发客户，需要转成正式 Word
+- 招投标、响应文件、标书材料需要抽取、清洗、统一排版并导出
 
 这个仓库默认不提供任何线上模型服务。启动后，直接在页面中填写你自己的：
 
@@ -143,6 +155,33 @@ backend/offline_pdf_bundle
 - 仓库不内置任何默认接口地址
 - 前端只会使用你手动填写的 `API Base URL` 和 `API Key`
 - 后端默认只允许访问 HTTPS 上游，或本机 HTTP 地址
+
+## FAQ
+
+### 需要我自己提供模型接口吗？
+
+需要。这个仓库默认不提供托管模型服务。你只需要在页面中填写自己的 `API Base URL` 和 `API Key` 即可。
+
+### 可以接 OpenAI、Gemini、Qwen 吗？
+
+可以。只要你的接口兼容 OpenAI 风格调用方式，就可以接入。
+
+### PDF 转 Word 一定要用大模型吗？
+
+不一定。`PDF -> Word` 优先使用本地离线结构化能力；只有 AI 格式化、智能表格、标书转写这类能力才会调用你配置的线上接口。
+
+### 这个项目适合什么团队？
+
+适合经常处理文档整理、客户交付、内部汇报、标书和 AI 草稿转正式文件的小团队或个人。
+
+### 可以直接 `git clone` 到本地启动吗？
+
+可以，仓库首页已经给出直接可用的：
+
+```bash
+git clone https://github.com/dragon43ppp/docugen-markdown-docx.git
+cd docugen-markdown-docx
+```
 
 ## License
 

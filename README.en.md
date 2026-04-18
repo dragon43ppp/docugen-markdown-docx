@@ -3,6 +3,12 @@
 [简体中文](./README.md) | **English**
 
 <p align="center">
+  <a href="https://github.com/dragon43ppp/docugen-markdown-docx/stargazers"><img src="https://img.shields.io/github/stars/dragon43ppp/docugen-markdown-docx?style=flat-square" alt="GitHub stars" /></a>
+  <a href="https://github.com/dragon43ppp/docugen-markdown-docx/blob/main/LICENSE"><img src="https://img.shields.io/github/license/dragon43ppp/docugen-markdown-docx?style=flat-square" alt="License" /></a>
+  <a href="https://github.com/dragon43ppp/docugen-markdown-docx/commits/main"><img src="https://img.shields.io/github/last-commit/dragon43ppp/docugen-markdown-docx?style=flat-square" alt="Last commit" /></a>
+</p>
+
+<p align="center">
   <img src="docs/assets/github-cover.png" alt="DocuGen Markdown DOCX cover" width="100%" />
 </p>
 
@@ -12,6 +18,12 @@
 
 DocuGen Markdown DOCX is a local document cleanup tool. You can import `TXT / Markdown / DOCX / XLSX / PDF / images`, continue editing the extracted content in the app, and export the final result as Word or Excel.
 It is suitable for `PDF to Word`, `Markdown to DOCX`, AI-generated draft cleanup, document normalization, and bid or tender document processing.
+
+## Understand It in 3 Seconds
+
+- Turn messy PDFs, Word files, Markdown drafts, and image documents into one clean deliverable
+- Convert AI-generated Markdown into client-ready or internally shareable DOCX files
+- Clean up, standardize, and export bid documents, tender responses, and proposal materials
 
 This repository does not provide any hosted model service out of the box. After launch, enter your own:
 
@@ -128,6 +140,33 @@ backend/offline_pdf_bundle
 - No default hosted endpoint is included
 - The frontend only uses the `API Base URL` and `API Key` you enter
 - The backend only allows HTTPS upstreams by default, or local HTTP addresses
+
+## FAQ
+
+### Do I need to provide my own model endpoint?
+
+Yes. This repository does not ship with a hosted model service. You only need to enter your own `API Base URL` and `API Key`.
+
+### Can I use OpenAI, Gemini, or Qwen?
+
+Yes. Any endpoint that is compatible with the OpenAI-style API can be used here.
+
+### Does PDF to Word always require an LLM?
+
+No. `PDF -> Word` prefers the local offline structure pipeline. Only AI formatting, smart tables, and bid-document rewriting use your configured online endpoint.
+
+### Who is this project for?
+
+Teams or individuals who frequently clean up documents for internal reporting, customer delivery, proposals, tenders, or AI-generated drafts.
+
+### Can I just clone and run it locally?
+
+Yes. The repository already provides a direct:
+
+```bash
+git clone https://github.com/dragon43ppp/docugen-markdown-docx.git
+cd docugen-markdown-docx
+```
 
 ## License
 
