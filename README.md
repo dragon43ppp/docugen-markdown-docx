@@ -1,8 +1,16 @@
-# DocuGen Open
+# DocuGen Markdown DOCX
 
 **简体中文** | [English](./README.en.md)
 
-DocuGen Open 是一个可本地运行的文档整理工具。你可以导入 `TXT / Markdown / DOCX / XLSX / PDF / 图片`，在页面中继续整理内容，并导出为 Word 或 Excel。
+<p align="center">
+  <img src="docs/assets/github-cover.png" alt="DocuGen Markdown DOCX cover" width="100%" />
+</p>
+
+<p align="center">
+  <strong>PDF 转 Word</strong> · <strong>Markdown 转 DOCX</strong> · <strong>杂乱文档整理成可交付版本</strong>
+</p>
+
+DocuGen Markdown DOCX 是一个可本地运行的文档整理工具。你可以导入 `TXT / Markdown / DOCX / XLSX / PDF / 图片`，在页面中继续整理内容，并导出为 Word 或 Excel。
 适合 `PDF 转 Word`、`Markdown 转 DOCX`、AI 文档整理、文档格式统一、招投标材料整理等场景。
 
 这个仓库默认不提供任何线上模型服务。启动后，直接在页面中填写你自己的：
@@ -17,8 +25,8 @@ DocuGen Open 是一个可本地运行的文档整理工具。你可以导入 `TX
 ### 1. 克隆仓库
 
 ```bash
-git clone https://github.com/dragon43ppp/docugen.git
-cd docugen
+git clone https://github.com/dragon43ppp/docugen-markdown-docx.git
+cd docugen-markdown-docx
 ```
 
 ### 2. 启动项目

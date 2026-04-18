@@ -50,7 +50,7 @@ if not defined DOCUGEN_OFFLINE_PDF_ROOT (
 
 cls
 echo ========================================================
-echo   DocuGen Open
+echo   DocuGen Markdown DOCX
 echo ========================================================
 echo   Frontend: http://127.0.0.1:9000
 echo   Backend : http://127.0.0.1:8001

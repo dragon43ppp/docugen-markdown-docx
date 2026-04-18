@@ -1,8 +1,16 @@
-# DocuGen Open
+# DocuGen Markdown DOCX
 
 [简体中文](./README.md) | **English**
 
-DocuGen Open is a local document cleanup tool. You can import `TXT / Markdown / DOCX / XLSX / PDF / images`, continue editing the extracted content in the app, and export the final result as Word or Excel.
+<p align="center">
+  <img src="docs/assets/github-cover.png" alt="DocuGen Markdown DOCX cover" width="100%" />
+</p>
+
+<p align="center">
+  <strong>PDF to Word</strong> · <strong>Markdown to DOCX</strong> · <strong>Messy files to clean deliverables</strong>
+</p>
+
+DocuGen Markdown DOCX is a local document cleanup tool. You can import `TXT / Markdown / DOCX / XLSX / PDF / images`, continue editing the extracted content in the app, and export the final result as Word or Excel.
 It is suitable for `PDF to Word`, `Markdown to DOCX`, AI-generated draft cleanup, document normalization, and bid or tender document processing.
 
 This repository does not provide any hosted model service out of the box. After launch, enter your own:
@@ -17,8 +25,8 @@ to connect any OpenAI-compatible endpoint. If needed, you can also set a default
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/dragon43ppp/docugen.git
-cd docugen
+git clone https://github.com/dragon43ppp/docugen-markdown-docx.git
+cd docugen-markdown-docx
 ```
 
 ### 2. Start the project

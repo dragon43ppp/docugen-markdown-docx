@@ -171,8 +171,8 @@ const Sidebar: React.FC<SidebarProps> = ({
           </div>
           {!collapsed && (
             <div className="min-w-0">
-              <h1 className="truncate text-base font-bold leading-tight text-slate-800">DocuGen Open</h1>
-              <p className="truncate text-[11px] text-slate-400">本地开源版</p>
+              <h1 className="truncate text-base font-bold leading-tight text-slate-800">DocuGen MD DOCX</h1>
+              <p className="truncate text-[11px] text-slate-400">PDF to Word / Markdown to DOCX</p>
             </div>
           )}
         </div>
